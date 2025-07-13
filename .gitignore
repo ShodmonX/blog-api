@@ -1,0 +1,60 @@
+# Python cache va compiled files
+__pycache__/
+*.py[cod]
+*.so
+*.pyd
+*.pyo
+*.pyc
+
+# Venv
+venv/
+
+
+# MacOS & system files
+.DS_Store
+Thumbs.db
+
+# VSCode / PyCharm
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Env variables
+.env
+.env.*
+
+# Alembic cache
+alembic/versions/*.pyc
+
+# SQLite or local db
+*.sqlite3
+*.db
+
+# Test coverage
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Migrations __pycache__
+alembic/__pycache__/
+
+# Docker
+*.pid
+*.tar
+*.log
+docker-compose.override.yml
+
+# MyPy / Pyright / Pylint
+.mypy_cache/
+.pyright/
+pylint-report.txt
+
+# Pytest
+.pytest_cache/
