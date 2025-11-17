@@ -2,11 +2,11 @@ from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import JSONResponse
 
 from .routers import router
-from .core.config import PROJECT_NAME, VERSION
+from .core.config import settings
 
 app = FastAPI(
-    title=PROJECT_NAME,
-    version=VERSION
+    title=settings.PROJECT_NAME,
+    version=settings.VERSION
 )
 
 @app.exception_handler(HTTPException)
