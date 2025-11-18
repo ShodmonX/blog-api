@@ -1,3 +1,4 @@
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -5,8 +6,14 @@ class Settings(BaseSettings):
     PROJECT_NAME: str
     VERSION: str
     JWT_SECRET: str
-    TOKEN_EXPIRE_MINUTES: int
+    JWT_ALGORITHM: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int
+    REFRESH_TOKEN_EXPIRE_DAYS: int
     DATABASE_URL: str
+    DEBUG: bool
+    REDIS_HOST: str
+    REDIS_PORT: int
+    REDIS_DB: int
     
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 

@@ -12,6 +12,10 @@ async def get_posts(db: AsyncSession, skip: int = 0, limit: int = 100):
 async def create_post(db: AsyncSession, post: PostCreate, owner_id: int):
     db_post = Post(**post.model_dump(), owner_id=owner_id)
     db.add(db_post)
-    await db.commit()
-    await db.refresh(db_post)
-    return db_post
+    try:
+        await db.commit()
+        await db.refresh(db_post)
+        return db_post
+    except Exception as e:
+        await db.rollback()
+        raise e
