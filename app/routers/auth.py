@@ -27,7 +27,7 @@ async def register(user: UserCreate, db: AsyncSession = Depends(get_db)):
         raise HTTPException(400, "User already exists with this username")
 
     user = await create_user(db, user.username, user.email, get_password_hash(user.password))
-    return {"msg": "User created", "user": user}
+    return {"msg": "User created", "user": UserOut(id=user.id, username=user.username, email=user.email)}
 
 @router.post("/login")
 async def login(user: UserLogin, response: Response, db: AsyncSession = Depends(get_db)):
