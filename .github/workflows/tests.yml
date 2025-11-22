@@ -1,5 +1,6 @@
 name: Tests
 on: [push, pull_request]
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -7,16 +8,48 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: test_db
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: Shodmon123
+          POSTGRES_DB: blogapi
         ports: [5432:5432]
-        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=5
+        options: >-
+          --health-cmd="pg_isready -U admin -d blogapi"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      redis:
+        image: redis:7-alpine
+        ports: [6379:6379]
+
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      - run: pip install -r requirements.txt pytest pytest-asyncio httpx
-      - run: pytest
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest pytest-asyncio pytest-cov httpx
+
+      - name: Create test .env
+        run: |
+          echo "PROJECT_NAME=BLOG API" >> .env.test
+          echo "VERSION=0.1.0" >> .env.test
+          echo "JWT_SECRET=test-secret-for-ci-only" >> .env.test
+          echo "JWT_ALGORITHM=HS256" >> .env.test
+          echo "ACCESS_TOKEN_EXPIRE_MINUTES=30" >> .env.test
+          echo "REFRESH_TOKEN_EXPIRE_DAYS=7" >> .env.test
+          echo "DATABASE_URL=postgresql+asyncpg://admin:Shodmon123@localhost:5432/blogapi" >> .env.test
+          echo "DEBUG=1" >> .env.test
+          echo "REDIS_HOST=localhost" >> .env.test
+          echo "REDIS_PORT=6379" >> .env.test
+          echo "REDIS_DB=7" >> .env.test
+
+      - name: Run tests
+        run: pytest -q
         env:
-          DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/test_db
+          ENV_FILE: .env.test
