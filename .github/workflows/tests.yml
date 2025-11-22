@@ -10,10 +10,10 @@ jobs:
         env:
           POSTGRES_USER: admin
           POSTGRES_PASSWORD: Shodmon123
-          POSTGRES_DB: blogapi
+          POSTGRES_DB: test_db
         ports: [5432:5432]
         options: >-
-          --health-cmd="pg_isready -U admin -d blogapi"
+          --health-cmd="pg_isready -U admin -d test_db"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -33,7 +33,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt pytest pytest-asyncio pytest-cov httpx
+          pip install -r requirements.txt
 
       - name: Create test .env
         run: |
