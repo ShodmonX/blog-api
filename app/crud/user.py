@@ -5,10 +5,14 @@ from app.models.user import User
 
 
 async def get_user(db: AsyncSession, email: str):
-    stm = select(User).where(User.email == email)
+    try:
+        stm = select(User).where(User.email == email)
 
-    result = await db.execute(stm)
-    return result.scalars().first()
+        result = await db.execute(stm)
+        return result.scalar_one_or_none()
+    except Exception as e:
+        await db.rollback()
+        raise e
 
 async def get_user_with_username(db: AsyncSession, username: str):
     stm = select(User).where(User.username == username)

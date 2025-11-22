@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Response, Cookie
+from fastapi import APIRouter, Depends, HTTPException, Response, Cookie, status
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -15,7 +15,7 @@ router = APIRouter(
     tags=["Auth"]
 )
 
-@router.post("/register")
+@router.post("/register", status_code=status.HTTP_201_CREATED)
 async def register(user: UserCreate, db: AsyncSession = Depends(get_db)):
     user_db_email = await get_user(db, user.email)
     user_db_username = await get_user_with_username(db, user.username)
@@ -46,7 +46,7 @@ async def login(user: UserLogin, response: Response, db: AsyncSession = Depends(
         httponly=True,
         secure=not settings.DEBUG,
         samesite="lax",
-        max_age=settings.REFRESH_TOKEN_EXPIRE_DAYS
+        max_age=settings.REFRESH_TOKEN_EXPIRE_DAYS * 86400
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
