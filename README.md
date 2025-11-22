@@ -79,21 +79,22 @@ uvicorn app.main:app --reload
     REDIS_PORT=6380
     REDIS_DB=7
 
-## 📡 API Endpoints
+## API Endpoints
 
-  Method   Endpoint         Description                Auth
-  -------- ---------------- -------------------------- --------
-  POST     /auth/register   User registration          --
-  POST     /auth/login      Login (returns cookies)    --
-  POST     /auth/refresh    Refresh access token       Cookie
-  POST     /auth/logout     Logout                     Cookie
-  GET      /users/me        Get current user profile   Yes
-  PUT      /users/me        Update profile             Yes
-  POST     /posts/          Create new post            Yes
-  GET      /posts/          Get all posts              --
-  GET      /posts/{id}      Get single post            --
-  PUT      /posts/{id}      Update post (owner only)   Yes
-  DELETE   /posts/{id}      Delete post (owner only)   Yes
+| Method | Endpoint            | Description                        | Auth Required |
+|--------|---------------------|------------------------------------|---------------|
+| POST   | `/auth/register`    | Roʻyxatdan oʻtish                  | –             |
+| POST   | `/auth/login`       | Kirish (cookie beradi)             | –             |
+| POST   | `/auth/refresh`     | Yangi access token olish           | Cookie        |
+| POST   | `/auth/logout`      | Chiqish                            | Cookie        |
+| GET    | `/users/me`         | Joriy foydalanuvchi profili        | Yes           |
+| PUT    | `/users/me`         | Profilni yangilash                 | Yes           |
+| POST   | `/posts/`           | Yangi post yaratish                | Yes           |
+| GET    | `/posts/`           | Barcha postlarni olish             | –             |
+| GET    | `/posts/{id}`       | Bitta postni olish                 | –             |
+| PUT    | `/posts/{id}`       | Postni yangilash (faqat egasi)     | Yes           |
+| DELETE | `/posts/{id}`       | Postni oʻchirish (faqat egasi)     | Yes           |
+| GET    | `/health`           | Server holatini tekshirish         | –             |
 
 ## 🧪 Testing
 

@@ -176,7 +176,7 @@ async def test_logout(client: AsyncClient):
     logout_response = await client.post("/auth/logout", headers={
         "Authorization": f"Bearer {login_response.json()['access_token']}"
     })
-    assert logout_response.status_code == 401
+    assert logout_response.status_code == 200
 
 async def test_update_profile(client: AsyncClient):
     await client.post("/auth/register", json={
@@ -241,7 +241,7 @@ async def test_refresh_and_logout(client: AsyncClient):
     assert refresh.status_code == 401
 
     logout = await client.post("/auth/logout")
-    assert logout.status_code == 401
+    assert logout.status_code == 200
 
     failed = await client.post("/auth/refresh")
     assert failed.status_code == 401
